@@ -41,7 +41,7 @@ app.post('/generate', upload.array('images'), asyncHandler(async (req, res, next
 
         await run(imagePaths, outputPath);
 
-        res.download(outputPath, 'targets.mind', async err => {
+        res.download(outputPath, 'output.mind', async err => {
             if (!err) {
                 await unlink(outputPath);
                 await Promise.all(imagePaths.map(p => unlink(p)));
