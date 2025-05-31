@@ -3,6 +3,7 @@
 import * as tf from '@tensorflow/tfjs';
 import { FREAKPOINTS } from './freak.js';
 import './kernels/webgl/index.js';
+import './kernels/tensorflow/index.js';
 const PYRAMID_MIN_SIZE = 8;
 const PYRAMID_MAX_OCTAVE = 5;
 
@@ -993,6 +994,7 @@ class Detector {
 			 const result1 = this._compileAndRun(program1, [image]);
 			const result2 = this._compileAndRun(program2, [result1]); 
 			return result2; */
+			console.log("image detect before binomialFilter", image)
 			return tf.engine().runKernel('BinomialFilter', { image });
 		});
 	}
