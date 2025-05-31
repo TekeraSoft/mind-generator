@@ -76,6 +76,7 @@ class Detector {
 				image1T = this._applyFilter(inputImageT);
 			} else {
 				image1T = this._downsampleBilinear(pyramidImagesT[i - 1][pyramidImagesT[i - 1].length - 1]);
+				// console.log("_downsampleBilinear", image1T)
 			}
 			image2T = this._applyFilter(image1T);
 			pyramidImagesT.push([image1T, image2T]);

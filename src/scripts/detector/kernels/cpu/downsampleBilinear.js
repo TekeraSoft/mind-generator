@@ -5,6 +5,7 @@ export const downsampleBilinear = (args) => {
     const x = args.inputs.image;
     /** @type {MathBackendCPU} */
     const backend = args.backend;
+    console.log("backend", backend)
 
     const kernel = {
         variableNames: ['p'],
@@ -19,7 +20,7 @@ export const downsampleBilinear = (args) => {
                 sum[0] += Math.fround(this.getP(y + 1, x) * 0.25);
                 sum[0] += Math.fround(this.getP(y, x + 1) * 0.25);
                 sum[0] += Math.fround(this.getP(y + 1, x + 1) * 0.25);
-                
+
                 this.setOutput(sum[0]);
             }
     }

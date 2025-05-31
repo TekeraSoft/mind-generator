@@ -54,7 +54,9 @@ export const binomialFilter = (args) => {//{inputs: UnaryInputs, backend: MathBa
   const [kernel1, kernel2] = GetKernels(image);
 
   const result1 = FakeShader.runCode(backend, kernel1, [image], image.dtype);
-  return FakeShader.runCode(backend, kernel2, [result1], image.dtype);
+  const result2 = FakeShader.runCode(backend, kernel2, [result1], image.dtype);
+  // console.log("result")
+  return  result2
 }
 
 
