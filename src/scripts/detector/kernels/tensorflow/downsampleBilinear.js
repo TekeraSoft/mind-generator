@@ -2,6 +2,7 @@ import * as tf from '@tensorflow/tfjs-core';
 
 export const downsampleBilinear = ({ inputs, backend }) => {
   const { image } = inputs;
+  console.log("image:", image);
   image.dataSync();
   const [height, width] = image.shape;
 
@@ -9,7 +10,7 @@ export const downsampleBilinear = ({ inputs, backend }) => {
   const newWidth = Math.floor(width / 2);
 
   const imageData = backend.readSync(image);
-
+  console.log("imageData:", imageData);
   const outputValues = new Float32Array(newHeight * newWidth);
 
   for (let y = 0; y < newHeight; y++) {

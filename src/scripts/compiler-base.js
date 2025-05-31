@@ -2,10 +2,8 @@ import { Detector } from './detector/detector.js';
 import { buildImageList, buildTrackingImageList } from './image-list.js';
 import { build as hierarchicalClusteringBuild } from './matching/hierarchical-clustering.js';
 import * as msgpack from '@msgpack/msgpack';
-import * as tf from '@tensorflow/tfjs-node';
+import * as tf from '@tensorflow/tfjs';
 
-await tf.setBackend('tensorflow');
-await tf.ready();
 
 // TODO: better compression method. now grey image saved in pixels, which could be larger than original image
 
@@ -61,7 +59,7 @@ class CompilerBase {
         this.data[i].trackingImageList = trackingImageList;
       }
 
-      const trackingDataList = await this.compileTrack({progressCallback, targetImages, basePercent: 50});
+      const trackingDataList = await this.compileTrack({ progressCallback, targetImages, basePercent: 50 });
 
       for (let i = 0; i < targetImages.length; i++) {
         this.data[i].trackingData = trackingDataList[i];
@@ -116,7 +114,7 @@ class CompilerBase {
     console.warn("missing createProcessCanvas implementation");
   }
 
-  compileTrack({progressCallback, targetImages, basePercent}) {
+  compileTrack({ progressCallback, targetImages, basePercent }) {
     // sub-class implements
     console.warn("missing compileTrack implementation");
   }

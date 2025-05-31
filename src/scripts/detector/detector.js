@@ -994,8 +994,10 @@ class Detector {
 			 const result1 = this._compileAndRun(program1, [image]);
 			const result2 = this._compileAndRun(program2, [result1]); 
 			return result2; */
-			console.log("image detect before binomialFilter", image)
-			return tf.engine().runKernel('BinomialFilter', { image });
+
+			const filteredTensor = tf.engine().runKernel('BinomialFilter', { image });
+
+			return filteredTensor
 		});
 	}
 
