@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler';
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { unlink } from 'fs/promises';
+import fs, { unlink } from 'fs/promises';
 import { run } from './src/scripts/createImageTarget.js';
 import sharp from 'sharp';
 
