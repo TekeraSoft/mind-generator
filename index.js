@@ -46,24 +46,24 @@ app.post('/generate', upload.array('images'), asyncHandler(async (req, res, next
         let outputPath;
 
         for (const file of files) {
-            const ext = path.extname(file.originalname).toLowerCase();
-            const baseName = path.basename(file.originalname, ext);
+            // const ext = path.extname(file.originalname).toLowerCase();
+            // const baseName = path.basename(file.originalname, ext);
             const timestamp = Date.now();
 
+            outputPath = path.join(__dirname, 'uploads', `${timestamp}-${file.originalname}.jpeg`);
+            await sharp(file.buffer)
+                .toFormat('jpeg')
+                .jpeg({ quality: 100 })
+                .toFile(outputPath);
 
+            // if () {
+            //     // .webp'yi .jpeg'e dönüştür ve kaydet
 
-            if (ext === '.webp' || ext === 'gif') {
-                // .webp'yi .jpeg'e dönüştür ve kaydet
-                outputPath = path.join(__dirname, 'uploads', `${timestamp}-${baseName}.jpeg`);
-                await sharp(file.buffer)
-                    .toFormat('jpeg')
-                    .jpeg({ quality: 100 })
-                    .toFile(outputPath);
-            } else {
-                // Diğer dosyaları orijinal formatında kaydet
-                outputPath = path.join(__dirname, 'uploads', `${timestamp}-${file.originalname}`);
-                await fs.writeFile(outputPath, file.buffer);
-            }
+            // } else {
+            //     // Diğer dosyaları orijinal formatında kaydet
+            //     outputPath = path.join(__dirname, 'uploads', `${timestamp}-${file.originalname}`);
+            //     await fs.writeFile(outputPath, file.buffer);
+            // }
 
             convertedImagePaths.push(outputPath);
         }
