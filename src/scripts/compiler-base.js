@@ -2,7 +2,7 @@ import { Detector } from './detector/detector.js';
 import { buildImageList, buildTrackingImageList } from './image-list.js';
 import { build as hierarchicalClusteringBuild } from './matching/hierarchical-clustering.js';
 import * as msgpack from '@msgpack/msgpack';
-import * as tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs-node';
 
 
 // TODO: better compression method. now grey image saved in pixels, which could be larger than original image

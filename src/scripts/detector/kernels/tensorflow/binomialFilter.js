@@ -3,12 +3,35 @@ import * as tf from '@tensorflow/tfjs-node';
 export async function binomialFilter(args) {
   // imageTensor shape: [height, width] veya [height, width, channels]
 
-  const imageTensor = args.inputs.image;
-  const backend = args.backend;
+  const imageTensor = args.inputs.image.clone();
+  const keptTensor = tf.keep(imageTensor);
+
+  // const backend = args.backend;
+
+  console.log("keptTensor dtype:", keptTensor.dtype);
+  console.log("Tensor disposed:", keptTensor);
+  // console.log("Tensor data:", await imageTensor.data()); // Eğer data erişilebilirse
 
 
-  console.log("test1", backend);
-  let input = imageTensor;
+  let input;
+  const dataTensor = await imageTensor.data();
+  const shape = imageTensor.shape;
+
+  // Float32Array'den direkt tensor oluştur
+
+  const newTensor = tf.tensor(dataTensor, shape, 'float32');
+  newTensor.keep(); // Yeni tensor'ı da koru
+  console.log("Buffer tensor:", newTensor);
+  console.log("Buffer tensor dataId:", newTensor.dataId);
+
+
+
+
+
+
+
+
+  console.log("input", input);
   let hasChannels = true;
   console.log("isdispose", imageTensor.isDisposedInternal)
   try {

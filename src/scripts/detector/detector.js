@@ -1,6 +1,6 @@
 // result should be similar to previou
 // improve freka descriptors computation 
-import * as tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs-node';
 import { FREAKPOINTS } from './freak.js';
 import './kernels/webgl/index.js';
 import './kernels/tensorflow/index.js';
