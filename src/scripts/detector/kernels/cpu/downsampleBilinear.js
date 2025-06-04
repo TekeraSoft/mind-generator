@@ -5,7 +5,7 @@ export const downsampleBilinear = (args) => {
     const x = args.inputs.image;
     /** @type {MathBackendCPU} */
     const backend = args.backend;
-    console.log("backend", backend)
+    // console.log("backend", backend)
 
     const kernel = {
         variableNames: ['p'],

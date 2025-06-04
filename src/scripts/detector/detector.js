@@ -3,7 +3,7 @@
 import * as tf from '@tensorflow/tfjs';
 import { FREAKPOINTS } from './freak.js';
 import './kernels/webgl/index.js';
-import './kernels/tensorflow/index.js';
+// import './kernels/tensorflow/index.js';
 const PYRAMID_MIN_SIZE = 8;
 const PYRAMID_MAX_OCTAVE = 5;
 

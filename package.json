@@ -9,7 +9,8 @@
     "express-async-handler": "^1.2.0",
     "fs": "0.0.2",
     "mathjs": "14.5.2",
-    "multer": "^2.0.0"
+    "multer": "^2.0.0",
+    "sharp": "^0.34.2"
   },
   "type": "module"
 }

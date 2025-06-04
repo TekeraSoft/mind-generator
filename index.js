@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { unlink } from 'fs/promises';
 import { run } from './src/scripts/createImageTarget.js';
+import sharp from 'sharp';
 
 
 const PORT = 3009
@@ -22,7 +23,10 @@ const storage = multer.diskStorage({
         cb(null, `${Date.now()}-${file.originalname}`);
     }
 });
-const upload = multer({ storage });
+// const upload = multer({ storage });
+
+const upload = multer({ storage: multer.memoryStorage() });
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 app.get('/', asyncHandler(async (req, res, next) => {
@@ -38,15 +42,39 @@ app.post('/generate', upload.array('images'), asyncHandler(async (req, res, next
             return res.status(400).json({ error: 'No image files provided' });
         }
 
-        const imagePaths = files.map(file => file.path);
-        const outputPath = path.join(__dirname, 'uploads', 'targets.mind');
+        const convertedImagePaths = [];
+        let outputPath;
 
-        await run(imagePaths, outputPath);
+        for (const file of files) {
+            const ext = path.extname(file.originalname).toLowerCase();
+            const baseName = path.basename(file.originalname, ext);
+            const timestamp = Date.now();
 
-        res.download(outputPath, 'output.mind', async err => {
+
+
+            if (ext === '.webp' || ext === 'gif') {
+                // .webp'yi .jpeg'e dönüştür ve kaydet
+                outputPath = path.join(__dirname, 'uploads', `${timestamp}-${baseName}.jpeg`);
+                await sharp(file.buffer)
+                    .toFormat('jpeg')
+                    .jpeg({ quality: 100 })
+                    .toFile(outputPath);
+            } else {
+                // Diğer dosyaları orijinal formatında kaydet
+                outputPath = path.join(__dirname, 'uploads', `${timestamp}-${file.originalname}`);
+                await fs.writeFile(outputPath, file.buffer);
+            }
+
+            convertedImagePaths.push(outputPath);
+        }
+
+        const mindOutputPath = path.join(__dirname, 'uploads', `targets-${Date.now()}.mind`);
+        await run(convertedImagePaths, mindOutputPath);
+
+        res.download(mindOutputPath, 'targets.mind', async err => {
             if (!err) {
-                await unlink(outputPath);
-                await Promise.all(imagePaths.map(p => unlink(p)));
+                await unlink(mindOutputPath);
+                await Promise.all(convertedImagePaths.map(p => unlink(p)));
             }
         });
 
