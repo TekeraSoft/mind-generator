@@ -80,7 +80,7 @@ app.post('/generate', upload.array('images'), asyncHandler(async (req, res, next
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Failed to generate targets' });
+        res.status(500).json({ error: error || 'Failed to generate targets' });
     }
 }));
 
