@@ -23,11 +23,23 @@ const storage = multer.diskStorage({
         cb(null, `${Date.now()}-${file.originalname}`);
     }
 });
-// const upload = multer({ storage });
+
 
 const upload = multer({ storage: multer.memoryStorage() });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const uploadsDir = path.join(__dirname, 'uploads');
+
+// Uygulama başlamadan önce klasörü oluştur
+fs.mkdir(uploadsDir, { recursive: true })
+    .then(() => {
+        app.listen(PORT, () => console.log('Listening on', PORT));
+    })
+    .catch(err => {
+        console.error('uploads klasörü oluşturulamadı:', err);
+        process.exit(1); // hata varsa uygulamayı başlatma
+    });
 
 app.get('/', asyncHandler(async (req, res, next) => {
     // await run()
